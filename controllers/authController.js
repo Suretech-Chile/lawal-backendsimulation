@@ -10,8 +10,10 @@ const login = (req, res) => {
   if (user) {
     const token = jwt.sign({ id: user.id, username: user.username }, SECRET_KEY, { expiresIn: "1h" });
     res.json({ token }); // Enviamos el token al cliente
+    console.log("Token enviado")
   } else {
     res.status(401).json({ message: "Credenciales inválidas" });
+    console.log("Credenciales inválidas")
   }
 };
 

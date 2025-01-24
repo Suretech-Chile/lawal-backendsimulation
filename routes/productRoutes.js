@@ -1,11 +1,17 @@
 const express = require("express");
-const { getProducts } = require("../controllers/productController");
-// Middleware que permite proteger la ruta
+const {
+  getProducts,
+  addProduct,
+  updateProduct,
+  deleteProduct,
+} = require("../controllers/productController");
 const authenticateToken = require("../middleware/authenticateToken");
 
 const router = express.Router();
 
-// Ruta protegida para obtener los productos
 router.get("/", authenticateToken, getProducts);
+router.post("/", authenticateToken, addProduct);
+router.put("/:id", authenticateToken, updateProduct);
+router.delete("/:id", authenticateToken, deleteProduct);
 
 module.exports = router;
