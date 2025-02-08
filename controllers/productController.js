@@ -1,6 +1,6 @@
 // Simulamos una base de datos de productos
 let products = [
-  { id: 1, name: "Producto A", category: "A", price: 100, stock: 2 },
+  { id: 1, name: "Producto A", category: "A", imageUrl: "https://images.squarespace-cdn.com/content/v1/5e10bdc20efb8f0d169f85f9/09943d85-b8c7-4d64-af31-1a27d1b76698/arrow.png?format=1500w", price: 100, stock: 2 },
   { id: 2, name: "Producto B", category: "A", price: 200, stock: 4 },
   { id: 3, name: "Producto C", category: "A", price: 300, stock: 6 },
   { id: 4, name: "Producto D", category: "B", price: 100, stock: 2 },
@@ -22,12 +22,11 @@ exports.getProducts = (req, res) => {
 
 //Agregar un producto
 exports.addProduct = (req, res) => {
-  const { name, category, price, stock, imageUrl } = req.body;
-
+  const { name, category, price, stock, imageFile} = req.body;
   // Validar los datos del producto
-  if (!name || price <= 0 || stock < 0) {
+  if (!name || !category || (price && price <= 0) || (stock && stock < 0)) { //Si no hay nombre, no hay categoría, o existe price y stock pero no con valores válidos
     return res.status(400).json({
-      message: "Datos inválidos. Asegúrate de completar todos los campos obligatorios.",
+      message: "Datos inválidos. Asegúrate de completar todos los campos obligatorios y llenar price y stock con valores válidos",
     });
   }
 
@@ -37,7 +36,7 @@ exports.addProduct = (req, res) => {
     category,
     price,
     stock,
-    imageUrl: imageUrl || "", // Si no se proporciona imageUrl, usar una cadena vacía
+    imageUrl: imageFile? "https://placehold.co/" : "", // Si no se proporciona imageUrl, usar una cadena vacía
   };
 
   products.push(newProduct);
@@ -54,7 +53,7 @@ exports.updateProduct = (req, res) => {
   console.log("ID del producto a editar: ",id)
   const productToEdit = products.find((product) => product.id === parseInt(id));
   console.log("Producto actual a editar: ", productToEdit);
-  const { name, category, price, stock, imageUrl } = req.body;
+  const { name, category, price, stock, imageUrl, imageFile } = req.body;
   console.log("Datos recibidos para actualizar:", {
     params: req.params,
     body: req.body,
@@ -68,6 +67,7 @@ exports.updateProduct = (req, res) => {
   products[productIndex] = {
     ...products[productIndex], // Mantén los campos existentes
     ...req.body,              // Sobrescribe solo los campos enviados
+    imageUrl: imageFile? "https://placehold.co/" : products[productIndex].imageUrl //Si se editó la imagen se asigna una nueva url, si no se conserva la anterior
   };
   
 
