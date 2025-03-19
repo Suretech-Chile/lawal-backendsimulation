@@ -11,6 +11,7 @@ const users = [
 
 // Lógica para login mejorada
 const login = (req, res) => {
+  console.log("Entró alguien a login")
   const { username, password } = req.body;
   const user = users.find((u) => u.username === username && u.password === password);
 
