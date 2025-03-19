@@ -12,6 +12,7 @@ const app = express();
 // Middlewares
 app.use(bodyParser.json()); // Para parsear las solicitudes JSON
 app.use(cookieParser()); // Para parsear cookies
+
 // Configuración de CORS
 app.use(cors({
   origin: "http://localhost:5173",  // Cambia esto si tu frontend está en otro puerto o dominio
