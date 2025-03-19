@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser');
 
 // Importamos las rutas
 const authRoutes = require("./routes/authRoutes");
@@ -10,6 +11,7 @@ const app = express();
 
 // Middlewares
 app.use(bodyParser.json()); // Para parsear las solicitudes JSON
+app.use(cookieParser()); // Para parsear cookies
 app.use(cors()); // Habilitar CORS
 
 // Rutas

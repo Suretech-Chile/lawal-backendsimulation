@@ -50,4 +50,57 @@ const login = (req, res) => {
   }
 };
 
-module.exports = { login };
+// Nueva función para verificar autenticación
+const verifyAuth = (req, res) => {
+  try {
+    // Obtenemos el token desde la cookie
+    const token = req.cookies.auth_token;
+    
+    if (!token) {
+      return res.status(401).json({ 
+        authenticated: false, 
+        message: "No se encontró token de autenticación" 
+      });
+    }
+    
+    // Verificamos el token
+    const decoded = jwt.verify(token, SECRET_KEY);
+    
+    // Buscamos el usuario para devolver info actualizada
+    const user = users.find(u => u.id === decoded.id);
+    
+    if (!user) {
+      return res.status(401).json({ 
+        authenticated: false, 
+        message: "Usuario no encontrado" 
+      });
+    }
+    
+    // Respondemos que está autenticado junto con los datos básicos del usuario
+    return res.json({
+      authenticated: true,
+      user: {
+        username: user.username,
+        role: user.role,
+        name: user.name
+      }
+    });
+    
+  } catch (error) {
+    // Si hay un error verificando el token (expirado, inválido, etc.)
+    console.log("Error en verificación de token:", error.message);
+    return res.status(401).json({ 
+      authenticated: false, 
+      message: "Token inválido o expirado" 
+    });
+  }
+};
+
+// Nueva función para cerrar sesión
+const logout = (req, res) => {
+  // Eliminar la cookie de autenticación
+  res.clearCookie('auth_token');
+  res.json({ success: true, message: "Sesión cerrada correctamente" });
+};
+
+module.exports = { login, verifyAuth, logout };
