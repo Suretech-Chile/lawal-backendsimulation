@@ -1,11 +1,11 @@
 // Simulamos una base de datos de productos
 let products = [
   { id: 1, name: "Producto A", category: "A", imageUrl: "https://images.squarespace-cdn.com/content/v1/5e10bdc20efb8f0d169f85f9/09943d85-b8c7-4d64-af31-1a27d1b76698/arrow.png?format=1500w", price: 100, stock: 2 },
-  { id: 2, name: "Producto B", category: "A", price: 200, stock: 4 },
+  { id: 2, name: "Madera 3x3", category: "A", price: 2000, stock: 4 },
   { id: 3, name: "Producto C", category: "A", price: 300, stock: 6 },
-  { id: 4, name: "Producto D", category: "B", price: 100, stock: 2 },
-  { id: 5, name: "Producto E", category: "B", price: 200, stock: 41 },
-  { id: 6, name: "Producto F", category: "B", price: 300, stock: 64 },
+  { id: 4, name: "Producto D", category: "Ferretería", price: 100, stock: 2 },
+  { id: 5, name: "Producto E", category: "Ferretería", price: 200, stock: 41 },
+  { id: 6, name: "Producto F", category: "Ferretería", price: 300, stock: 64 },
   { id: 7, name: "Producto G", category: "C", price: 100, stock: 26 },
   { id: 8, name: "Producto H", category: "C", price: 200, stock: 47 },
   { id: 9, name: "Producto I", category: "C", price: 300, stock: 0 },
@@ -87,4 +87,18 @@ exports.deleteProduct = (req, res) => {
   res.status(200).json(deletedProduct[0]);
 
   console.log("Producto eliminado:", deletedProduct[0]);
+};
+
+// Simulamos una base de datos de los productos más vendidos
+let topProducts = [
+  { id: 2, name: "Madera 3x3", category: "A", price: 2000, stock: 4 },
+  { id: 3, name: "Producto C", category: "A", price: 300, stock: 6 },
+  { id: 4, name: "Producto D", category: "Ferretería", price: 100, stock: 2 },
+  { id: 5, name: "Producto E", category: "Ferretería", price: 200, stock: 41 },
+];
+
+//Obtener los productos más vendidos
+exports.getTopProducts = (req, res) => {
+  res.status(200).json(topProducts);
+  console.log("Lista de prod. más vendidos enviada: ", topProducts);
 };
