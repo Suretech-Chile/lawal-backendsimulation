@@ -15,7 +15,7 @@ app.use(cookieParser()); // Para parsear cookies
 
 // Configuración de CORS
 app.use(cors({
-  origin: "http://localhost:5173",  // Cambia esto si tu frontend está en otro puerto o dominio
+  origin: ["http://localhost:5173","http://localhost:5174"],  // Cambia esto si tu frontend está en otro puerto o dominio
   credentials: true                 // Permitir envío de cookies
 }));
 
