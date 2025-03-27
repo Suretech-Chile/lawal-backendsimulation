@@ -1,8 +1,25 @@
 // Simulamos una base de datos de preventas activas
 let preventas = [
-    { id: 1, cart:[{product: { id: 2, name: "Madera 3x3", category: "A", price: 2000, stock: 40 }, quantity: 3},
-                   {product:{ id: 12, name: "Producto L", category: "D", price: 300, stock: 69 }, quantity: 10}
-                ]}
+    { id: 1, cart:[ 
+        {productId: 2, quantity: 3},
+        {productId: 12, quantity: 40}
+    ]}
+];
+
+// Simulamos la base de datos de productos (ASEGURARSE Q SEA IGUAL A LA DE PORDUCTCONTROLLER)
+let products = [
+    { id: 1, name: "Producto A", category: "A", price: 100, stock: 2 },
+    { id: 2, name: "Madera 3x3", category: "A", price: 2000, stock: 40 },
+    { id: 3, name: "Producto C", category: "A", price: 300, stock: 6 },
+    { id: 4, name: "Producto D", category: "Ferretería", price: 100, stock: 2 },
+    { id: 5, name: "Producto E", category: "Ferretería", price: 200, stock: 41 },
+    { id: 6, name: "Producto F", category: "Ferretería", price: 300, stock: 64 },
+    { id: 7, name: "Producto G", category: "C", price: 100, stock: 26 },
+    { id: 8, name: "Producto H", category: "C", price: 200, stock: 47 },
+    { id: 9, name: "Producto I", category: "C", price: 300, stock: 0 },
+    { id: 10, name: "Producto J", category: "D", price: 100, stock: 54 },
+    { id: 11, name: "Producto K", category: "D", price: 200, stock: 45 },
+    { id: 12, name: "Producto L", category: "D", price: 300, stock: 69 },
 ];
 
 // Obtener la lista de preventas
@@ -24,10 +41,20 @@ exports.addPreventa = (req, res) => {
 
     // Validar stock de los productos
     for (let item of cart) {
-        // Verificar que el stock del producto sea suficiente para la cantidad solicitada
-        if (item.product.stock < item.quantity) {
+        // Encontrar el producto correspondiente
+        const product = products.find(p => p.id === item.productId);
+        
+        // Verificar que el producto existe
+        if (!product) {
             return res.status(400).json({
-                message: `Stock insuficiente para el producto ${item.product.name}. Stock disponible: ${item.product.stock}, Cantidad solicitada: ${item.quantity}`
+                message: `Producto con ID ${item.productId} no encontrado.`
+            });
+        }
+
+        // Verificar que el stock del producto sea suficiente para la cantidad solicitada
+        if (product.stock < item.quantity) {
+            return res.status(400).json({
+                message: `Stock insuficiente para el producto ${product.name}. Stock disponible: ${product.stock}, Cantidad solicitada: ${item.quantity}`
             });
         }
     }
@@ -73,10 +100,20 @@ exports.updatePreventa = (req, res) => {
 
     // Validar stock de los productos
     for (let item of cart) {
-        // Verificar que el stock del producto sea suficiente para la cantidad solicitada
-        if (item.product.stock < item.quantity) {
+        // Encontrar el producto correspondiente
+        const product = products.find(p => p.id === item.productId);
+        
+        // Verificar que el producto existe
+        if (!product) {
             return res.status(400).json({
-                message: `Stock insuficiente para el producto ${item.product.name}. Stock disponible: ${item.product.stock}, Cantidad solicitada: ${item.quantity}`
+                message: `Producto con ID ${item.productId} no encontrado.`
+            });
+        }
+
+        // Verificar que el stock del producto sea suficiente para la cantidad solicitada
+        if (product.stock < item.quantity) {
+            return res.status(400).json({
+                message: `Stock insuficiente para el producto ${product.name}. Stock disponible: ${product.stock}, Cantidad solicitada: ${item.quantity}`
             });
         }
     }
