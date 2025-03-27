@@ -1,7 +1,7 @@
 // Simulamos una base de datos de productos
 let products = [
   { id: 1, name: "Producto A", category: "A", imageUrl: "https://images.squarespace-cdn.com/content/v1/5e10bdc20efb8f0d169f85f9/09943d85-b8c7-4d64-af31-1a27d1b76698/arrow.png?format=1500w", price: 100, stock: 2 },
-  { id: 2, name: "Madera 3x3", category: "A", price: 2000, stock: 4 },
+  { id: 2, name: "Madera 3x3", category: "A", price: 2000, stock: 40 },
   { id: 3, name: "Producto C", category: "A", price: 300, stock: 6 },
   { id: 4, name: "Producto D", category: "Ferretería", price: 100, stock: 2 },
   { id: 5, name: "Producto E", category: "Ferretería", price: 200, stock: 41 },

@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 // Importamos las rutas
 const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
+const ventasRoutes = require("./routes/ventasRoutes");
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(cors({
 // Rutas
 app.use("/api/auth", authRoutes); // Ruta de autenticación (login)
 app.use("/api/products", productRoutes); // Ruta de productos (protegida)
+app.use("/api/preventas", ventasRoutes); // Ruta de preventas (protegida)
 
 // Iniciamos el servidor
 const PORT = process.env.PORT || 5000;
