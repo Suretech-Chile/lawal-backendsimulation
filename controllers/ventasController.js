@@ -1,10 +1,27 @@
 // Simulamos una base de datos de preventas activas
 let preventas = [
-    { id: 1, cart:[ 
-        {productId: 2, quantity: 3},
-        {productId: 12, quantity: 40}
-    ]}
-];
+    {
+      id: 1,
+      cart: [
+        { productId: 1, quantity: 1 },
+        { productId: 11, quantity: 40 },
+      ],
+    },
+    {
+      id: 2,
+      cart: [
+        { productId: 2, quantity: 3 },
+        { productId: 12, quantity: 40 },
+      ],
+    },
+    {
+      id: 3,
+      cart: [
+        { productId: 3, quantity: 4 },
+        { productId: 2, quantity: 40 },
+      ],
+    },
+  ];
 
 // Simulamos la base de datos de productos (ASEGURARSE Q SEA IGUAL A LA DE PORDUCTCONTROLLER)
 let products = [

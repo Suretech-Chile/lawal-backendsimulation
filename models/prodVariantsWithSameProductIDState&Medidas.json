@@ -1,0 +1,15 @@
+{
+  "Nombre del Producto + Nombre del Estado (si es bruto dejar vacío) + Medidas" :{
+    "Código asociado a una procut_variant_id específica, por ej 1": 1 ,
+    "Código asociado a una procut_variant_id específica, por ej 2": 2 ,
+    "Así hacia abajo todos los códigos que corresponden a ese producto, estado y medida": 54
+  },
+  "Madera Pino Cepillado 10M": {
+    "MAD-IND-10M-003": 37,
+    "MAD-IND-10M-006": 40
+  },
+  "Martillo": {
+    "MAR-CAC-00-025": 100,
+    "MAR-CAC-00-026": 101
+  }
+}

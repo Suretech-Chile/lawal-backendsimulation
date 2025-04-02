@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
 const ventasRoutes = require("./routes/ventasRoutes");
+const productVariantsRoutes = require("./routes/productVariantsRoutes");
 
 const app = express();
 
@@ -24,6 +25,8 @@ app.use(cors({
 app.use("/api/auth", authRoutes); // Ruta de autenticación (login)
 app.use("/api/products", productRoutes); // Ruta de productos (protegida)
 app.use("/api/preventas", ventasRoutes); // Ruta de preventas (protegida)
+
+app.use("/api/productVariants",productVariantsRoutes); // Ruta con product variants (protegida)
 
 // Iniciamos el servidor
 const PORT = process.env.PORT || 5000;
