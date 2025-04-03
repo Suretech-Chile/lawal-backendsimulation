@@ -9,6 +9,8 @@ const {
   getTopProductVariants,
   getOutOfStockVariants,
   getVariantsByState,
+  getVariantsGroupedByNameStateAndMedida,
+  getTopVariantsGroupedByNameStateAndMedida
 } = require("../controllers/productVariantsController");
 const authenticateToken = require("../middleware/authenticateToken");
 
@@ -24,6 +26,7 @@ router.put("/:id", authenticateToken, updateProductVariant);
 router.delete("/:id", authenticateToken, deleteProductVariant);
 
 router.get("/topSales", authenticateToken, getTopProductVariants);
+
 router.get("/grouped", authenticateToken, getVariantsGroupedByNameStateAndMedida);
 router.get("/topSales/grouped", authenticateToken, getTopVariantsGroupedByNameStateAndMedida);
 
