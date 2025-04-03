@@ -24,5 +24,8 @@ router.put("/:id", authenticateToken, updateProductVariant);
 router.delete("/:id", authenticateToken, deleteProductVariant);
 
 router.get("/topSales", authenticateToken, getTopProductVariants);
+router.get("/grouped", authenticateToken, getVariantsGroupedByNameStateAndMedida);
+router.get("/topSales/grouped", authenticateToken, getTopVariantsGroupedByNameStateAndMedida);
+
 
 module.exports = router;

@@ -1,9 +1,9 @@
-// Diccionario de productos base (limitado a 4 productos)
-const baseProducts = {
-    1: "Martillo Profesional",
-    2: "Madera de Pino",
-    3: "Tornillos Galvanizados",
-    4: "Cemento Portland"
+  // Diccionario de productos base (limitado a 4 productos)
+  const baseProducts = {
+      1: "Martillo Profesional",
+      2: "Madera de Pino",
+      3: "Tornillos Galvanizados",
+      4: "Cemento Portland"
   };
   
   // Función para generar código según el nuevo formato
@@ -509,3 +509,80 @@ const baseProducts = {
     res.status(200).json(stateVariants);
     console.log(`Variantes con estado ${state} enviadas: `, stateVariants);
   };
+
+  // Obtener variantes agrupadas por nombre, estado y medida
+  exports.getVariantsGroupedByNameStateAndMedida = (req, res) => {
+    try {
+      const result = {};
+      
+      // Mapeo de valores numéricos de estado a texto
+      const stateNames = {
+        0: "Bruto",
+        1: "Cepillado",
+        2: "Otra Transformación"
+      };
+      
+      productVariants.forEach(variant => {
+        // Construir el nombre compuesto para la clave principal
+        // Si el estado es 0 (Bruto), no se incluye en el nombre
+        const stateName = variant.state === 0 ? "" : ` ${stateNames[variant.state]}`;
+        // Si la medida es "0", no se incluye en el nombre
+        const medidaPart = variant.medida === "0" ? "" : ` ${variant.medida}`;
+        
+        const compoundName = `${variant.nombre}${stateName}${medidaPart}`;
+        
+        // Inicializar la estructura si no existe
+        if (!result[compoundName]) {
+          result[compoundName] = {};
+        }
+        
+        // Agregar el par código-id
+        result[compoundName][variant.codigo] = variant.id;
+      });
+      
+      res.status(200).json(result);
+      console.log("Variantes agrupadas enviadas:", Object.keys(result).length, "grupos");
+    } catch (error) {
+      console.error("Error al obtener variantes agrupadas:", error);
+      res.status(500).json({ message: "Error interno del servidor" });
+    }
+  };
+
+  // Obtener las variantes más vendidas agrupadas por nombre, estado y medida
+exports.getTopVariantsGroupedByNameStateAndMedida = (req, res) => {
+  try {
+    const result = {};
+
+    // Mapeo de valores numéricos de estado a texto
+    const stateNames = {
+      0: "Bruto",
+      1: "Cepillado",
+      2: "Otra Transformación"
+    };
+
+    // Simulamos que las "más vendidas" son las primeras 5 con state === 1
+    const topVariants = productVariants.filter(variant => variant.state === 1).slice(0, 5);
+
+    topVariants.forEach(variant => {
+      // Construcción del nombre compuesto
+      const stateName = variant.state === 0 ? "" : ` ${stateNames[variant.state]}`;
+      const medidaPart = variant.medida === "0" ? "" : ` ${variant.medida}`;
+
+      const compoundName = `${variant.nombre}${stateName}${medidaPart}`;
+
+      // Inicializar la estructura si no existe
+      if (!result[compoundName]) {
+        result[compoundName] = {};
+      }
+
+      // Agregar el par código-id
+      result[compoundName][variant.codigo] = variant.id;
+    });
+
+    res.status(200).json(result);
+    console.log("Variantes más vendidas agrupadas enviadas:", Object.keys(result).length, "grupos");
+  } catch (error) {
+    console.error("Error al obtener variantes más vendidas agrupadas:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
+  }
+};
