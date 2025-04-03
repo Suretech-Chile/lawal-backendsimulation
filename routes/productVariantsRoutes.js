@@ -16,19 +16,21 @@ const authenticateToken = require("../middleware/authenticateToken");
 
 const router = express.Router();
 
-router.get("/", authenticateToken, getProductVariants);
-router.get("/:id", authenticateToken, getProductVariantById);
-router.get("/product/:productId", authenticateToken, getVariantsByProductId);
-router.get("/state/:state", authenticateToken, getVariantsByState);
-router.get("/outOfStock", authenticateToken, getOutOfStockVariants);
-router.post("/", authenticateToken, addProductVariant);
-router.put("/:id", authenticateToken, updateProductVariant);
-router.delete("/:id", authenticateToken, deleteProductVariant);
+router.use(authenticateToken);
 
-router.get("/topSales", authenticateToken, getTopProductVariants);
+// Obtener datos
+router.get("/", getProductVariants);
+router.get("/topSales", getTopProductVariants);
+router.get("/outOfStock", getOutOfStockVariants);
+router.get("/grouped", getVariantsGroupedByNameStateAndMedida);
+router.get("/topSales/grouped", getTopVariantsGroupedByNameStateAndMedida);
+router.get("/product/:productId", getVariantsByProductId);
+router.get("/state/:state", getVariantsByState);
+router.get("/:id", getProductVariantById); // Al final
 
-router.get("/grouped", authenticateToken, getVariantsGroupedByNameStateAndMedida);
-router.get("/topSales/grouped", authenticateToken, getTopVariantsGroupedByNameStateAndMedida);
-
+// Modificar datos
+router.post("/", addProductVariant);
+router.put("/:id", updateProductVariant);
+router.delete("/:id", deleteProductVariant);
 
 module.exports = router;

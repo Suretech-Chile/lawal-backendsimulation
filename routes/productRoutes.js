@@ -10,11 +10,15 @@ const authenticateToken = require("../middleware/authenticateToken");
 
 const router = express.Router();
 
-router.get("/", authenticateToken, getProducts);
-router.post("/", authenticateToken, addProduct);
-router.put("/:id", authenticateToken, updateProduct);
-router.delete("/:id", authenticateToken, deleteProduct);
+router.use(authenticateToken);
 
-router.get("/topSales", authenticateToken, getTopProducts);
+// Obtener datos
+router.get("/", getProducts);
+router.get("/topSales", getTopProducts);
+
+// Modificar datos
+router.post("/", addProduct);
+router.put("/:id", updateProduct);
+router.delete("/:id", deleteProduct);
 
 module.exports = router;

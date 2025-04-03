@@ -512,6 +512,7 @@
 
   // Obtener variantes agrupadas por nombre, estado y medida
   exports.getVariantsGroupedByNameStateAndMedida = (req, res) => {
+    console.log("Solicitud recibida en /grouped");
     try {
       const result = {};
       
@@ -539,16 +540,17 @@
         // Agregar el par código-id
         result[compoundName][variant.codigo] = variant.id;
       });
-      
-      res.status(200).json(result);
+
       console.log("Variantes agrupadas enviadas:", Object.keys(result).length, "grupos");
+      return res.status(200).json(result);
+      
     } catch (error) {
       console.error("Error al obtener variantes agrupadas:", error);
-      res.status(500).json({ message: "Error interno del servidor" });
+      return res.status(500).json({ message: "Error interno del servidor" });
     }
   };
 
-  // Obtener las variantes más vendidas agrupadas por nombre, estado y medida
+// Obtener las variantes más vendidas agrupadas por nombre, estado y medida
 exports.getTopVariantsGroupedByNameStateAndMedida = (req, res) => {
   try {
     const result = {};
@@ -579,10 +581,12 @@ exports.getTopVariantsGroupedByNameStateAndMedida = (req, res) => {
       result[compoundName][variant.codigo] = variant.id;
     });
 
-    res.status(200).json(result);
+    
+    console.log(result);
     console.log("Variantes más vendidas agrupadas enviadas:", Object.keys(result).length, "grupos");
+    return res.status(200).json(result);
   } catch (error) {
     console.error("Error al obtener variantes más vendidas agrupadas:", error);
-    res.status(500).json({ message: "Error interno del servidor" });
+    return res.status(500).json({ message: "Error interno del servidor" });
   }
 };
