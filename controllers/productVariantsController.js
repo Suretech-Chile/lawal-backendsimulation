@@ -1,237 +1,16 @@
-  // Diccionario de productos base (limitado a 4 productos)
-  const baseProducts = {
-      1: "Martillo Profesional",
-      2: "Madera de Pino",
-      3: "Tornillos Galvanizados",
-      4: "Cemento Portland"
-  };
-  
-  // Función para generar código según el nuevo formato
-  // [3 primeros caracteres del nombre]-[2 dígitos calidad]-[2 dígitos state]-[3 dígitos paquete]
-  const generateCode = (nombre, calidad, state, paquete) => {
-    // Extrae los 3 primeros caracteres del nombre, convertidos en mayúsculas
-    const prefijo = nombre.substring(0, 3).toUpperCase();
-    // Calidad y estado convertidos a números de 2 dígitos
-    const calidadStr = calidad.toString().padStart(2, '0');
-    const stateStr = state.toString().padStart(2, '0');
-    // Paquete como número de 3 dígitos
-    const paqueteStr = paquete.toString().padStart(3, '0');
-    
-    return `${prefijo}-${calidadStr}-${stateStr}-${paqueteStr}`;
-  };
-  
-  // Función para validar un código según formato
-  const validateCode = (codigo, nombre, calidad, state, paquete) => {
-    const expectedCode = generateCode(nombre, calidad, state, paquete);
-    return codigo === expectedCode;
-  };
-  
-  // Simulamos una base de datos de variantes de productos
-  let productVariants = [
-    { 
-      id: 1, 
-      productId: 1, 
-      nombre: "Martillo Profesional", 
-      state: 1, 
-      calidad: 1, 
-      medida: "0", 
-      paquete: 1, 
-      codigo: "MAR-01-01-001", 
-      margen: 0.25, 
-      priceIn: 80, 
-      sector: "Ferretería", 
-      local: "Principal", 
-      stock: 15, 
-      precio: 100 
-    },
-    { 
-      id: 2, 
-      productId: 1, 
-      nombre: "Martillo Profesional", 
-      state: 2, 
-      calidad: 2, 
-      medida: "0", 
-      paquete: 2, 
-      codigo: "MAR-02-02-002", 
-      margen: 0.30, 
-      priceIn: 100, 
-      sector: "Ferretería", 
-      local: "Sucursal", 
-      stock: 8, 
-      precio: 130 
-    },
-    { 
-      id: 3, 
-      productId: 2, 
-      nombre: "Madera de Pino", 
-      state: 1, 
-      calidad: 1, 
-      medida: "1M", 
-      paquete: 1, 
-      codigo: "MAD-01-01-001", 
-      margen: 0.30, 
-      priceIn: 1538.46, 
-      sector: "Construcción", 
-      local: "Principal", 
-      stock: 20, 
-      precio: 2000 
-    },
-    { 
-      id: 4, 
-      productId: 2, 
-      nombre: "Madera de Pino", 
-      state: 1, 
-      calidad: 1, 
-      medida: "2M", 
-      paquete: 2, 
-      codigo: "MAD-01-01-002", 
-      margen: 0.30, 
-      priceIn: 3076.92, 
-      sector: "Construcción", 
-      local: "Principal", 
-      stock: 12, 
-      precio: 4000 
-    },
-    { 
-      id: 5, 
-      productId: 2, 
-      nombre: "Madera de Pino", 
-      state: 0, 
-      calidad: 2, 
-      medida: "1M", 
-      paquete: 3, 
-      codigo: "MAD-02-00-003", 
-      margen: 0.35, 
-      priceIn: 1700, 
-      sector: "Construcción", 
-      local: "Sucursal", 
-      stock: 0, 
-      precio: 2295 
-    },
-    { 
-      id: 6, 
-      productId: 3, 
-      nombre: "Tornillos Galvanizados", 
-      state: 1, 
-      calidad: 1, 
-      medida: "0", 
-      paquete: 1, 
-      codigo: "TOR-01-01-001", 
-      margen: 0.20, 
-      priceIn: 250, 
-      sector: "Ferretería", 
-      local: "Principal", 
-      stock: 50, 
-      precio: 300 
-    },
-    { 
-      id: 7, 
-      productId: 3, 
-      nombre: "Tornillos Galvanizados", 
-      state: 2, 
-      calidad: 2, 
-      medida: "0", 
-      paquete: 2, 
-      codigo: "TOR-02-02-002", 
-      margen: 0.25, 
-      priceIn: 280, 
-      sector: "Ferretería", 
-      local: "Principal", 
-      stock: 32, 
-      precio: 350 
-    },
-    { 
-      id: 8, 
-      productId: 4, 
-      nombre: "Cemento Portland", 
-      state: 1, 
-      calidad: 1, 
-      medida: "0", 
-      paquete: 1, 
-      codigo: "CEM-01-01-001", 
-      margen: 0.15, 
-      priceIn: 70, 
-      sector: "Construcción", 
-      local: "Principal", 
-      stock: 100, 
-      precio: 80.5 
-    },
-    { 
-      id: 9, 
-      productId: 4, 
-      nombre: "Cemento Portland", 
-      state: 1, 
-      calidad: 2, 
-      medida: "0", 
-      paquete: 2, 
-      codigo: "CEM-02-01-002", 
-      margen: 0.20, 
-      priceIn: 90, 
-      sector: "Construcción", 
-      local: "Principal", 
-      stock: 75, 
-      precio: 108 
-    },
-    { 
-      id: 10, 
-      productId: 4, 
-      nombre: "Cemento Portland", 
-      state: 0, 
-      calidad: 3, 
-      medida: "0", 
-      paquete: 3, 
-      codigo: "CEM-03-00-003", 
-      margen: 0.25, 
-      priceIn: 100, 
-      sector: "Construcción", 
-      local: "Sucursal", 
-      stock: 0, 
-      precio: 125 
-    },
-    { 
-      id: 11, 
-      productId: 3, 
-      nombre: "Tornillos Galvanizados", 
-      state: 1, 
-      calidad: 3, 
-      medida: "0", 
-      paquete: 3, 
-      codigo: "TOR-03-01-003", 
-      margen: 0.30, 
-      priceIn: 300, 
-      sector: "Ferretería", 
-      local: "Sucursal", 
-      stock: 45, 
-      precio: 390 
-    },
-    { 
-      id: 12, 
-      productId: 1, 
-      nombre: "Martillo Profesional", 
-      state: 0, 
-      calidad: 3, 
-      medida: "0", 
-      paquete: 3, 
-      codigo: "MAR-03-00-003", 
-      margen: 0.35, 
-      priceIn: 120, 
-      sector: "Ferretería", 
-      local: "Principal", 
-      stock: 5, 
-      precio: 162 
-    }
-  ];
-  
+// productData.productVariantsController.js
+const productData = require('./../models/productData');
+
   // Obtener todas las variantes de productos
   exports.getProductVariants = (req, res) => {
-    res.status(200).json(productVariants);
-    console.log("Variantes de productos enviadas: ", productVariants);
+    res.status(200).json(productData.productVariants);
+    console.log("Variantes de productos enviadas: ", productData.productVariants);
   };
   
   // Obtener una variante de producto por ID
   exports.getProductVariantById = (req, res) => {
     const { id } = req.params;
-    const productVariant = productVariants.find((variant) => variant.id === parseInt(id));
+    const productVariant = productData.productVariants.find((variant) => variant.id === parseInt(id));
     
     if (!productVariant) {
       return res.status(404).json({ message: "Variante de producto no encontrada." });
@@ -251,7 +30,7 @@
       return res.status(404).json({ message: "ID de producto no válido." });
     }
     
-    const variants = productVariants.filter((variant) => variant.productId === parsedProductId);
+    const variants = productData.productVariants.filter((variant) => variant.productId === parsedProductId);
     
     if (variants.length === 0) {
       return res.status(404).json({ message: "No se encontraron variantes para este producto." });
@@ -315,7 +94,7 @@
     const generatedCode = generateCode(nombre, parsedCalidad, parsedState, parsedPaquete);
     
     // Verificar si el código ya existe
-    const codeExists = productVariants.some(variant => variant.codigo === generatedCode);
+    const codeExists = productData.productVariants.some(variant => variant.codigo === generatedCode);
     if (codeExists) {
       return res.status(400).json({
         message: "Ya existe una variante con este código. El código debe ser único."
@@ -323,7 +102,7 @@
     }
     
     const newProductVariant = {
-      id: productVariants.length + 1,
+      id: productData.productVariants.length + 1,
       productId: parsedProductId,
       nombre: expectedNombre,
       state: parsedState,
@@ -339,7 +118,7 @@
       precio: parseFloat(precio) || parseFloat(priceIn) * (1 + parseFloat(margen)) // Calcula el precio si no se proporciona
     };
     
-    productVariants.push(newProductVariant);
+    productData.productVariants.push(newProductVariant);
     
     res.status(201).json(newProductVariant);
     console.log("Variante de producto agregada:", newProductVariant);
@@ -348,13 +127,13 @@
   // Actualizar una variante de producto
   exports.updateProductVariant = (req, res) => {
     const { id } = req.params;
-    const variantIndex = productVariants.findIndex((variant) => variant.id === parseInt(id));
+    const variantIndex = productData.productVariants.findIndex((variant) => variant.id === parseInt(id));
     
     if (variantIndex === -1) {
       return res.status(404).json({ message: "Variante de producto no encontrada." });
     }
     
-    const currentVariant = productVariants[variantIndex];
+    const currentVariant = productData.productVariants[variantIndex];
     let updatedVariant = { ...currentVariant };
     
     // Si se actualiza productId, validar que exista y actualizar el nombre
@@ -434,7 +213,7 @@
       );
       
       // Verificar que el nuevo código no colisione con otros existentes (excepto el propio)
-      const codeExists = productVariants.some(variant => 
+      const codeExists = productData.productVariants.some(variant => 
         variant.codigo === updatedVariant.codigo && variant.id !== parseInt(id)
       );
       
@@ -446,7 +225,7 @@
     }
     
     // Actualizar la variante
-    productVariants[variantIndex] = updatedVariant;
+    productData.productVariants[variantIndex] = updatedVariant;
     
     res.status(200).json(updatedVariant);
     console.log("Variante de producto actualizada:", updatedVariant);
@@ -455,13 +234,13 @@
   // Eliminar una variante de producto
   exports.deleteProductVariant = (req, res) => {
     const { id } = req.params;
-    const variantIndex = productVariants.findIndex((variant) => variant.id === parseInt(id));
+    const variantIndex = productData.productVariants.findIndex((variant) => variant.id === parseInt(id));
     
     if (variantIndex === -1) {
       return res.status(404).json({ message: "Variante de producto no encontrada." });
     }
     
-    const deletedVariant = productVariants.splice(variantIndex, 1);
+    const deletedVariant = productData.productVariants.splice(variantIndex, 1);
     res.status(200).json(deletedVariant[0]);
     console.log("Variante de producto eliminada:", deletedVariant[0]);
   };
@@ -469,7 +248,7 @@
   // Obtener las variantes de productos más vendidas
   exports.getTopProductVariants = (req, res) => {
     // Simulamos variantes más vendidas (por ahora son las primeras 5)
-    const topVariants = productVariants.filter(variant => variant.state === 1).slice(0, 5);
+    const topVariants = productData.productVariants.filter(variant => variant.state === 1).slice(0, 5);
     res.status(200).json(topVariants);
     console.log("Lista de variantes más vendidas enviada: ", topVariants);
   };
@@ -477,7 +256,7 @@
   // Obtener variantes de productos con bajo stock
   exports.getLowStockVariants = (req, res) => {
     const lowStockThreshold = 10;
-    const lowStockVariants = productVariants.filter(variant => 
+    const lowStockVariants = productData.productVariants.filter(variant => 
       variant.stock < lowStockThreshold && variant.stock > 0 && variant.state !== 0
     );
     
@@ -487,7 +266,7 @@
   
   // Obtener variantes de productos sin stock
   exports.getOutOfStockVariants = (req, res) => {
-    const outOfStockVariants = productVariants.filter(variant => variant.stock === 0);
+    const outOfStockVariants = productData.productVariants.filter(variant => variant.stock === 0);
     
     res.status(200).json(outOfStockVariants);
     console.log("Variantes sin stock enviadas: ", outOfStockVariants);
@@ -504,7 +283,7 @@
       });
     }
     
-    const stateVariants = productVariants.filter(variant => variant.state === parsedState);
+    const stateVariants = productData.productVariants.filter(variant => variant.state === parsedState);
     
     res.status(200).json(stateVariants);
     console.log(`Variantes con estado ${state} enviadas: `, stateVariants);
@@ -523,7 +302,7 @@
         2: "Otra Transformación"
       };
       
-      productVariants.forEach(variant => {
+      productData.productVariants.forEach(variant => {
         // Construir el nombre compuesto para la clave principal
         // Si el estado es 0 (Bruto), no se incluye en el nombre
         const stateName = variant.state === 0 ? "" : ` ${stateNames[variant.state]}`;
@@ -537,8 +316,8 @@
           result[compoundName] = {};
         }
         
-        // Agregar el par código-id
-        result[compoundName][variant.codigo] = variant.id;
+        // Agregar el objeto asociada a cada código con {id,precio,stock}
+        result[compoundName][variant.codigo] = {id :variant.id, precio: variant.precio, stock: variant.stock};
       });
 
       console.log("Variantes agrupadas enviadas:", Object.keys(result).length, "grupos");
@@ -563,7 +342,7 @@ exports.getTopVariantsGroupedByNameStateAndMedida = (req, res) => {
     };
 
     // Simulamos que las "más vendidas" son las primeras 5 con state === 1
-    const topVariants = productVariants.filter(variant => variant.state === 1).slice(0, 5);
+    const topVariants = productData.productVariants.filter(variant => variant.state === 1).slice(0, 5);
 
     topVariants.forEach(variant => {
       // Construcción del nombre compuesto
@@ -577,8 +356,8 @@ exports.getTopVariantsGroupedByNameStateAndMedida = (req, res) => {
         result[compoundName] = {};
       }
 
-      // Agregar el par código-id
-      result[compoundName][variant.codigo] = variant.id;
+      // Agregar el objeto asociada a cada código con {id,precio,stock}
+      result[compoundName][variant.codigo] = {id :variant.id, precio: variant.precio, stock: variant.stock};
     });
 
     
