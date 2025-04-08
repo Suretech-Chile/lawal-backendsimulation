@@ -1,146 +1,144 @@
-// Simulamos una base de datos de preventas activas
-let preventas = [
-    {
-      id: 1,
-      cart: [
-        { productId: 1, quantity: 1 },
-        { productId: 11, quantity: 40 },
-      ],
-    },
-    {
-      id: 2,
-      cart: [
-        { productId: 2, quantity: 3 },
-        { productId: 12, quantity: 40 },
-      ],
-    },
-    {
-      id: 3,
-      cart: [
-        { productId: 3, quantity: 4 },
-        { productId: 2, quantity: 40 },
-      ],
-    },
-  ];
+// Import data from mock database
+const { productVariants, baseProducts } = require('../models/productData');
 
-// Simulamos la base de datos de productos (ASEGURARSE Q SEA IGUAL A LA DE PORDUCTCONTROLLER)
-let products = [
-    { id: 1, name: "Producto A", category: "A", price: 100, stock: 2 },
-    { id: 2, name: "Madera 3x3", category: "A", price: 2000, stock: 40 },
-    { id: 3, name: "Producto C", category: "A", price: 300, stock: 6 },
-    { id: 4, name: "Producto D", category: "Ferretería", price: 100, stock: 2 },
-    { id: 5, name: "Producto E", category: "Ferretería", price: 200, stock: 41 },
-    { id: 6, name: "Producto F", category: "Ferretería", price: 300, stock: 64 },
-    { id: 7, name: "Producto G", category: "C", price: 100, stock: 26 },
-    { id: 8, name: "Producto H", category: "C", price: 200, stock: 47 },
-    { id: 9, name: "Producto I", category: "C", price: 300, stock: 0 },
-    { id: 10, name: "Producto J", category: "D", price: 100, stock: 54 },
-    { id: 11, name: "Producto K", category: "D", price: 200, stock: 45 },
-    { id: 12, name: "Producto L", category: "D", price: 300, stock: 69 },
-];
+// Simulamos una base de datos de preventas activas con nuevo formato
+let preventas = {
+  "abcd1": {
+    "4": {
+      nombre: "Madera de Pino Cepillado 2M",
+      cantidad: 1,
+      precio: 4000
+    },
+    "6": {
+      nombre: "Tornillos Galvanizados Cepillado",
+      cantidad: 2,
+      precio: 300
+    }
+  },
+  "abcd2": {
+    "3": {
+      nombre: "Madera de Pino Cepillado 1M",
+      cantidad: 3,
+      precio: 2000
+    },
+    "7": {
+      nombre: "Tornillos Galvanizados Otra Transformación",
+      cantidad: 1,
+      precio: 350
+    }
+  }
+};
 
 // Obtener la lista de preventas
 exports.getPreventas = (req, res) => {
-    res.status(200).json(preventas);
-    console.log("Preventas enviados: ", preventas);
+  res.status(200).json(preventas);
+  console.log("Preventas enviadas: ", preventas);
 };
 
 // Añadir una nueva preventa
 exports.addPreventa = (req, res) => {
-    const { cart } = req.body;
+  const preventaPayload = req.body.preventa;
+  
+  // Validar que el payload no venga vacío
+  if (!preventaPayload || Object.keys(preventaPayload).length === 0) {
+    return res.status(400).json({
+      message: "La preventa no puede estar vacía."
+    });
+  }
+
+  // Generar ID único para la preventa
+  const preventaId = 'abcd' + (Object.keys(preventas).length + 1);
+  
+  // Validar stock de los productos
+  for (const [productVariantId, item] of Object.entries(preventaPayload)) {
+    // Encontrar la variante de producto
+    const variant = productVariants.find(v => v.id === parseInt(productVariantId));
     
-    // Validar que el carrito no venga vacío
-    if (!cart || cart.length === 0) {
-        return res.status(400).json({
-            message: "El carrito no puede estar vacío."
-        });
+    // Verificar que la variante existe
+    if (!variant) {
+      return res.status(400).json({
+        message: `Variante de producto con ID ${productVariantId} no encontrada.`
+      });
     }
 
-    // Validar stock de los productos
-    for (let item of cart) {
-        // Encontrar el producto correspondiente
-        const product = products.find(p => p.id === item.productId);
-        
-        // Verificar que el producto existe
-        if (!product) {
-            return res.status(400).json({
-                message: `Producto con ID ${item.productId} no encontrado.`
-            });
-        }
-
-        // Verificar que el stock del producto sea suficiente para la cantidad solicitada
-        if (product.stock < item.quantity) {
-            return res.status(400).json({
-                message: `Stock insuficiente para el producto ${product.name}. Stock disponible: ${product.stock}, Cantidad solicitada: ${item.quantity}`
-            });
-        }
+    // Verificar que el stock sea suficiente
+    if (variant.stock < item.cantidad) {
+      return res.status(400).json({
+        message: `Stock insuficiente para ${item.nombre}. Stock disponible: ${variant.stock}, Cantidad solicitada: ${item.cantidad}`
+      });
     }
+  }
 
-    // Si pasó todas las validaciones, crear la preventa
-    const newPreventa = {
-        id: preventas.length + 1, // Generar un ID simple
-        cart: cart
-    };
+  // Añadir la preventa al objeto de preventas
+  preventas[preventaId] = preventaPayload;
 
-    preventas.push(newPreventa);
-
-    // En el backend real se devuelve el PDF de la preventa para ser impreso
-    res.status(201).json(newPreventa);
-
-    console.log("Preventa agregada:", newPreventa);
+  // En el backend real se devuelve el PDF de la preventa para ser impreso
+  res.status(201).json({ id: preventaId, items: preventas[preventaId] });
+  console.log("Preventa agregada:", { id: preventaId, items: preventas[preventaId] });
 };
 
 // Editar una preventa
 exports.updatePreventa = (req, res) => {
-    const { id } = req.params;
-    const { cart } = req.body;
-    
-    console.log("ID de la preventa a editar: ", id);
-    console.log("Datos recibidos para actualizar:", {
-        params: req.params,
-        body: req.body,
+  const { id } = req.params;
+  const preventaPayload = req.body.preventa;
+  
+  console.log("ID de la preventa a editar: ", id);
+  console.log("Datos recibidos para actualizar:", {
+    params: req.params,
+    body: req.body,
+  });
+  
+  // Validar que el payload no venga vacío
+  if (!preventaPayload || Object.keys(preventaPayload).length === 0) {
+    return res.status(400).json({
+      message: "La preventa no puede estar vacía."
     });
+  }
+
+  // Verificar que la preventa existe
+  if (!preventas[id]) {
+    return res.status(404).json({ message: "Preventa no encontrada." });
+  }
+
+  // Validar stock de los productos
+  for (const [productVariantId, item] of Object.entries(preventaPayload)) {
+    // Encontrar la variante de producto
+    const variant = productVariants.find(v => v.id === parseInt(productVariantId));
     
-    // Validar que el carrito no venga vacío
-    if (!cart || cart.length === 0) {
-        return res.status(400).json({
-            message: "El carrito no puede estar vacío."
-        });
+    // Verificar que la variante existe
+    if (!variant) {
+      return res.status(400).json({
+        message: `Variante de producto con ID ${productVariantId} no encontrada.`
+      });
     }
 
-    // Buscar la preventa
-    const preventaIndex = preventas.findIndex((preventa) => preventa.id === parseInt(id));
-    
-    if (preventaIndex === -1) {
-        return res.status(404).json({ message: "Preventa no encontrada." });
+    // Verificar que el stock sea suficiente
+    if (variant.stock < item.cantidad) {
+      return res.status(400).json({
+        message: `Stock insuficiente para ${item.nombre}. Stock disponible: ${variant.stock}, Cantidad solicitada: ${item.cantidad}`
+      });
     }
+  }
 
-    // Validar stock de los productos
-    for (let item of cart) {
-        // Encontrar el producto correspondiente
-        const product = products.find(p => p.id === item.productId);
-        
-        // Verificar que el producto existe
-        if (!product) {
-            return res.status(400).json({
-                message: `Producto con ID ${item.productId} no encontrado.`
-            });
-        }
+  // Actualizar la preventa
+  preventas[id] = preventaPayload;
+  
+  res.status(200).json({ id: id, items: preventas[id] });
+  console.log("Preventa actualizada:", { id: id, items: preventas[id] });
+};
 
-        // Verificar que el stock del producto sea suficiente para la cantidad solicitada
-        if (product.stock < item.quantity) {
-            return res.status(400).json({
-                message: `Stock insuficiente para el producto ${product.name}. Stock disponible: ${product.stock}, Cantidad solicitada: ${item.quantity}`
-            });
-        }
-    }
-
-    // Actualizar la preventa
-    preventas[preventaIndex] = {
-        ...preventas[preventaIndex], // Mantén los campos existentes
-        ...req.body,                 // Sobrescribe solo los campos enviados
-    };
-    
-    res.status(200).json(preventas[preventaIndex]);
-    console.log("Preventa updateada:", preventas[preventaIndex]);
+// Eliminar una preventa
+exports.deletePreventa = (req, res) => {
+  const { id } = req.params;
+  
+  // Verificar que la preventa existe
+  if (!preventas[id]) {
+    return res.status(404).json({ message: "Preventa no encontrada." });
+  }
+  
+  // Eliminar la preventa
+  delete preventas[id];
+  
+  res.status(200).json({ message: "Preventa eliminada correctamente." });
+  console.log("Preventa eliminada:", id);
 };
