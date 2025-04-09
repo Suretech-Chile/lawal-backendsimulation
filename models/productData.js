@@ -224,9 +224,32 @@ const validateCode = (codigo, nombre, calidad, state, paquete) => {
     return codigo === expectedCode;
 };
 
+// Para crear un nombre compuesto que agrupe Nombre + Estado + Medidas
+
+// Mapeo de valores numéricos de estado a texto
+const stateNames = {
+  0: "Bruto",
+  1: "Cepillado",
+  2: "Otra Transformación"
+};
+
+// Función para crear un nombre compuesto que agrupe Nombre + Estado + Medidas
+const generateCompoundName = (variant) => {
+  // Si el estado es 0 (Bruto), no se incluye en el nombre
+  const stateName = variant.state === 0 ? "" : ` ${stateNames[variant.state]}`;
+  
+  // Si la medida es "0", no se incluye en el nombre
+  const medidaPart = variant.medida === "0" ? "" : ` ${variant.medida}`;
+  
+  // Combinar las partes para formar el nombre compuesto
+  return `${variant.nombre}${stateName}${medidaPart}`;
+};
+
 module.exports = {
   baseProducts,
   productVariants,
+  stateNames,
   generateCode,
-  validateCode
+  validateCode,
+  generateCompoundName
 };
