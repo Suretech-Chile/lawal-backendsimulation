@@ -28,8 +28,8 @@ router.get("/outOfStock", getOutOfStockVariants);
 router.get("/grouped", getVariantsGroupedByNameStateAndMedida);
 router.get("/topSales/grouped", getTopVariantsGroupedByNameStateAndMedida);
 // Nuevos endpoints para variantes formateadas
-router.get("/variantsVentasFrontend",getVariantsForVentasFrontend)
-router.get("/topSales/VentasFrontend",getVariantsForVentasFrontend)
+router.get("/variantsVentasFrontend",getVariantsForVentasFrontend);
+router.get("/topSales/VentasFrontend",getTopVariantsForVentasFrontend);
 //
 router.get("/product/:productId", getVariantsByProductId);
 router.get("/state/:state", getVariantsByState);
