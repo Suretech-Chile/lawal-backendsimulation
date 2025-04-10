@@ -20,7 +20,7 @@ const productVariants = [
       margen: 0.25, 
       priceIn: 80, 
       sector: "Ferretería", 
-      local: "Principal", 
+      local: "Sucursal", 
       stock: 15, 
       precio: 100 
     },
@@ -52,7 +52,7 @@ const productVariants = [
       margen: 0.30, 
       priceIn: 1538.46, 
       sector: "Construcción", 
-      local: "Principal", 
+      local: "Sucursal", 
       stock: 20, 
       precio: 2000 
     },
@@ -68,7 +68,7 @@ const productVariants = [
       margen: 0.30, 
       priceIn: 3076.92, 
       sector: "Construcción", 
-      local: "Principal", 
+      local: "Sucursal", 
       stock: 12, 
       precio: 4000 
     },
@@ -100,7 +100,7 @@ const productVariants = [
       margen: 0.20, 
       priceIn: 250, 
       sector: "Ferretería", 
-      local: "Principal", 
+      local: "Sucursal", 
       stock: 50, 
       precio: 300 
     },
@@ -116,7 +116,7 @@ const productVariants = [
       margen: 0.25, 
       priceIn: 280, 
       sector: "Ferretería", 
-      local: "Principal", 
+      local: "Planta", 
       stock: 32, 
       precio: 350 
     },
@@ -132,7 +132,7 @@ const productVariants = [
       margen: 0.15, 
       priceIn: 70, 
       sector: "Construcción", 
-      local: "Principal", 
+      local: "Sucursal", 
       stock: 100, 
       precio: 80.5 
     },
@@ -148,7 +148,7 @@ const productVariants = [
       margen: 0.20, 
       priceIn: 90, 
       sector: "Construcción", 
-      local: "Principal", 
+      local: "Planta", 
       stock: 75, 
       precio: 108 
     },
@@ -196,7 +196,7 @@ const productVariants = [
       margen: 0.35, 
       priceIn: 120, 
       sector: "Ferretería", 
-      local: "Principal", 
+      local: "Planta", 
       stock: 5, 
       precio: 162 
     }

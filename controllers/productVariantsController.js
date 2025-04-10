@@ -247,7 +247,7 @@ const productData = require('./../models/productData');
   
   // Obtener las variantes de productos más vendidas
   exports.getTopProductVariants = (req, res) => {
-    // Simulamos variantes más vendidas (por ahora son las primeras 5)
+    // Simulamos variantes más vendidas (por ahora son las primeras 5 con estado Cepillado)
     const topVariants = productData.productVariants.filter(variant => variant.state === 1).slice(0, 5);
     res.status(200).json(topVariants);
     console.log("Lista de variantes más vendidas enviada: ", topVariants);
@@ -383,7 +383,7 @@ exports.getTopVariantsForVentasFrontend = (req, res) => {
   try {
     const result = {};
     
-    //Simulamos que las variantes más vendidas son las primeras 5
+    //Simulamos que las variantes más vendidas son las primeras 5 con estado cepillado
     const topVariants = productData.productVariants.filter(variant => variant.state === 1).slice(0, 5);
 
     topVariants.forEach(variant => {
