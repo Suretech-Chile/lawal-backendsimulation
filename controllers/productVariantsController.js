@@ -288,36 +288,8 @@ const productData = require('./../models/productData');
     res.status(200).json(stateVariants);
     console.log(`Variantes con estado ${state} enviadas: `, stateVariants);
   };
-
-  // Obtener variantes con mismo Estado y Medidas para mostrar en Frontend Ventas FALTA AGREGAR AL ROUTER
-  exports.getVariantsForVentasFrontend = (req, res) => {
-    console.log("Solicitud recibida en /variants-frontend");
-    try {
-      const result = {};
-      
-      productData.productVariants.forEach(variant => {
-        // Generar nombre compuesto utilizando la función de utilidad
-        const compoundName = productData.generateCompoundName(variant);
-        
-        // Crear el objeto en el formato requerido
-        result[variant.id] = {
-          codigo: variant.codigo,
-          nombre: compoundName,
-          precio: variant.precio,
-          stock: variant.stock,
-          local: variant.local
-        };
-      });
-      
-      console.log("Variantes formateadas enviadas:", Object.keys(result).length, "variantes");
-      return res.status(200).json(result);
-    } catch (error) {
-      console.error("Error al obtener variantes para frontend:", error);
-      return res.status(500).json({ message: "Error interno del servidor" });
-    }
-  };
   
-  // Versión actualizada del endpoint original usando la función de utilidad
+  // Versión actualizada de endpoint de legado usando la función de utilidad
   exports.getVariantsGroupedByNameStateAndMedida = (req, res) => {
     console.log("Solicitud recibida en /grouped");
     try {
@@ -347,7 +319,7 @@ const productData = require('./../models/productData');
       return res.status(500).json({ message: "Error interno del servidor" });
     }
   };
-// Obtener las variantes más vendidas agrupadas por nombre, estado y medida
+// Endpoint antiguo, obtener las variantes más vendidas agrupadas por nombre, estado y medida
 exports.getTopVariantsGroupedByNameStateAndMedida = (req, res) => {
   try {
     const result = {};
@@ -373,6 +345,65 @@ exports.getTopVariantsGroupedByNameStateAndMedida = (req, res) => {
     return res.status(200).json(result);
   } catch (error) {
     console.error("Error al obtener variantes más vendidas agrupadas:", error);
+    return res.status(500).json({ message: "Error interno del servidor" });
+  }
+};
+
+// Obtener variantes con mismo Estado y Medidas para mostrar en Frontend Ventas FALTA AGREGAR AL ROUTER
+exports.getVariantsForVentasFrontend = (req, res) => {
+  console.log("Solicitud recibida en /variantsVentasFrontend");
+  try {
+    const result = {};
+    
+    //Simulamos que las variantes más vendidas son las primeras 5
+    const topVariants = productData.productVariants.filter(variant => variant.state === 1).slice(0, 5);
+  
+    topVariants.forEach(variant => {
+      // Generar nombre compuesto utilizando la función de utilidad
+      const compoundName = productData.generateCompoundName(variant);
+      
+      // Crear el objeto en el formato requerido
+      result[variant.id] = {
+        codigo: variant.codigo,
+        nombre: compoundName,
+        precio: variant.precio,
+        stock: variant.stock,
+        local: variant.local
+      };
+    });
+    
+    console.log("Variantes más vendidas formateadas enviadas:", Object.keys(result).length, "variantes");
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error("Error al obtener variantes para frontend:", error);
+    return res.status(500).json({ message: "Error interno del servidor" });
+  }
+};
+
+// Obtener variantes con mismo Estado y Medidas para mostrar en Frontend Ventas FALTA AGREGAR AL ROUTER
+exports.getTopVariantsForVentasFrontend = (req, res) => {
+  console.log("Solicitud recibida en /topSales/VentasFrontend");
+  try {
+    const result = {};
+    
+    productData.productVariants.forEach(variant => {
+      // Generar nombre compuesto utilizando la función de utilidad
+      const compoundName = productData.generateCompoundName(variant);
+      
+      // Crear el objeto en el formato requerido
+      result[variant.id] = {
+        codigo: variant.codigo,
+        nombre: compoundName,
+        precio: variant.precio,
+        stock: variant.stock,
+        local: variant.local
+      };
+    });
+    
+    console.log("Variantes formateadas enviadas:", Object.keys(result).length, "variantes");
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error("Error al obtener variantes más vendidas para frontend:", error);
     return res.status(500).json({ message: "Error interno del servidor" });
   }
 };

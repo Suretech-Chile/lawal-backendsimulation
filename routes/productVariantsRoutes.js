@@ -9,8 +9,10 @@ const {
   getTopProductVariants,
   getOutOfStockVariants,
   getVariantsByState,
-  getVariantsGroupedByNameStateAndMedida,
-  getTopVariantsGroupedByNameStateAndMedida
+  getVariantsGroupedByNameStateAndMedida, // Deprecated, no borrado por legacy
+  getTopVariantsGroupedByNameStateAndMedida, // Deprecated, no borrado por legacy
+  getVariantsForVentasFrontend,
+  getTopVariantsForVentasFrontend
 } = require("../controllers/productVariantsController");
 const authenticateToken = require("../middleware/authenticateToken");
 
@@ -22,8 +24,13 @@ router.use(authenticateToken);
 router.get("/", getProductVariants);
 router.get("/topSales", getTopProductVariants);
 router.get("/outOfStock", getOutOfStockVariants);
+// grouped endpoints deprecados. Existen por legacy
 router.get("/grouped", getVariantsGroupedByNameStateAndMedida);
 router.get("/topSales/grouped", getTopVariantsGroupedByNameStateAndMedida);
+// Nuevos endpoints para variantes formateadas
+router.get("/variantsVentasFrontend",getVariantsForVentasFrontend)
+router.get("/topSales/VentasFrontend",getVariantsForVentasFrontend)
+//
 router.get("/product/:productId", getVariantsByProductId);
 router.get("/state/:state", getVariantsByState);
 router.get("/:id", getProductVariantById); // Al final
