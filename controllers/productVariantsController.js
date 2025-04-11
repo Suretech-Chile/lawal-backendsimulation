@@ -54,7 +54,8 @@ const productData = require('./../models/productData');
       sector, 
       local, 
       stock, 
-      precio 
+      precio,
+      categoria 
     } = req.body;
     
     // Validación del productId
@@ -115,7 +116,8 @@ const productData = require('./../models/productData');
       sector,
       local,
       stock: parseInt(stock),
-      precio: parseFloat(precio) || parseFloat(priceIn) * (1 + parseFloat(margen)) // Calcula el precio si no se proporciona
+      precio: parseFloat(precio) || parseFloat(priceIn) * (1 + parseFloat(margen)), // Calcula el precio si no se proporciona,
+      categoria: categoria
     };
     
     productData.productVariants.push(newProductVariant);
@@ -196,6 +198,10 @@ const productData = require('./../models/productData');
     } else if (req.body.margen !== undefined || req.body.priceIn !== undefined) {
       // Recalcular precio si se cambió margen o priceIn pero no el precio directamente
       updatedVariant.precio = updatedVariant.priceIn * (1 + updatedVariant.margen);
+    }
+
+    if (req.body.categoria !== undefined) {
+      updatedVariant.categoria = req.body.categoria;
     }
     
     // Regenerar el código si alguno de los componentes ha cambiado
@@ -319,6 +325,8 @@ const productData = require('./../models/productData');
       return res.status(500).json({ message: "Error interno del servidor" });
     }
   };
+
+
 // Endpoint antiguo, obtener las variantes más vendidas agrupadas por nombre, estado y medida
 exports.getTopVariantsGroupedByNameStateAndMedida = (req, res) => {
   try {
@@ -404,6 +412,50 @@ exports.getTopVariantsForVentasFrontend = (req, res) => {
     return res.status(200).json(result);
   } catch (error) {
     console.error("Error al obtener variantes más vendidas para frontend:", error);
+    return res.status(500).json({ message: "Error interno del servidor" });
+  }
+};
+
+// Obtener variantes con mismo Estado y Medida, con sus paquetes agrupados, para mostrar en Inventario
+exports.getGroupedPackages = (req, res) => {
+  console.log("Solicitud recibida en /grouped-packages");
+
+  try {
+    const result = {};
+
+    productData.productVariants.forEach(variant => {
+      const compoundName = generateCompoundName(variant);
+
+      if (!result[compoundName]) {
+        result[compoundName] = {
+          stockTotal: 0,
+          calidad: variant.calidad ?? "Sin especificar",
+          categoria: variant.nombre,
+          estado: variant.state ?? "Desconocido",
+          medida: variant.medida ?? "0",
+          paquetes: {}
+        };
+      }
+
+      // Sumar al stock total
+      result[compoundName].stockTotal += variant.stock;
+
+      // Agregar paquete por código
+      result[compoundName].paquetes[variant.codigo] = {
+        id: variant.id,
+        precio: variant.precio,
+        stock: variant.stock,
+        local: variant.local ?? "Sin local",
+        sector: variant.sector ?? "Sin sector",
+        paquete: variant.paquete ?? 1
+      };
+    });
+
+    console.log("Variantes agrupadas:", Object.keys(result).length, "grupos");
+    return res.status(200).json(result);
+
+  } catch (error) {
+    console.error("Error en getGroupedPackages:", error);
     return res.status(500).json({ message: "Error interno del servidor" });
   }
 };

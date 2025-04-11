@@ -12,7 +12,8 @@ const {
   getVariantsGroupedByNameStateAndMedida, // Deprecated, no borrado por legacy
   getTopVariantsGroupedByNameStateAndMedida, // Deprecated, no borrado por legacy
   getVariantsForVentasFrontend,
-  getTopVariantsForVentasFrontend
+  getTopVariantsForVentasFrontend,
+  getGroupedPackages
 } = require("../controllers/productVariantsController");
 const authenticateToken = require("../middleware/authenticateToken");
 
@@ -27,9 +28,11 @@ router.get("/outOfStock", getOutOfStockVariants);
 // grouped endpoints deprecados. Existen por legacy
 router.get("/grouped", getVariantsGroupedByNameStateAndMedida);
 router.get("/topSales/grouped", getTopVariantsGroupedByNameStateAndMedida);
-// Nuevos endpoints para variantes formateadas
+// Nuevos endpoints para variantes formateadas para Ventas
 router.get("/variantsVentasFrontend",getVariantsForVentasFrontend);
 router.get("/topSales/VentasFrontend",getTopVariantsForVentasFrontend);
+// Variantes con sus paquetes agrupados para Inventario
+router.get("/packages",getGroupedPackages);
 //
 router.get("/product/:productId", getVariantsByProductId);
 router.get("/state/:state", getVariantsByState);
