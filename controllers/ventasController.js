@@ -42,10 +42,11 @@ exports.addPreventa = (req, res) => {
   // Validar que el payload no venga vacío
   if (!preventaPayload || Object.keys(preventaPayload).length === 0) {
     return res.status(400).json({
-      message: "La preventa no puede estar vacía."
+      success: false,
+      details: "La preventa no puede estar vacía."
     });
   }
-
+  
   // Generar ID único para la preventa
   const preventaId = 'abcd' + (Object.keys(preventas).length + 1);
   
@@ -57,24 +58,49 @@ exports.addPreventa = (req, res) => {
     // Verificar que la variante existe
     if (!variant) {
       return res.status(400).json({
-        message: `Variante de producto con ID ${productVariantId} no encontrada.`
+        success: false,
+        details: `Variante de producto con ID ${productVariantId} no encontrada.`
       });
     }
-
+    
     // Verificar que el stock sea suficiente
     if (variant.stock < item.cantidad) {
       return res.status(400).json({
-        message: `Stock insuficiente para ${item.nombre}. Stock disponible: ${variant.stock}, Cantidad solicitada: ${item.cantidad}`
+        success: false,
+        details: `Stock insuficiente para ${item.nombre}. Stock disponible: ${variant.stock}, Cantidad solicitada: ${item.cantidad}`
       });
     }
   }
-
-  // Añadir la preventa al objeto de preventas
-  preventas[preventaId] = preventaPayload;
-
-  // En el backend real se devuelve el PDF de la preventa para ser impreso
-  res.status(201).json({ id: preventaId, items: preventas[preventaId] });
-  console.log("Preventa agregada:", { id: preventaId, items: preventas[preventaId] });
+  
+  try {
+    // Añadir la preventa al objeto de preventas
+    preventas[preventaId] = preventaPayload;
+    
+    // Importar el módulo fs para leer el archivo PDF
+    const fs = require('fs');
+    const path = require('path');
+    
+    // Ruta al archivo PDF de muestra
+    const pdfPath = path.join(__dirname, '../models/sample.pdf');
+    
+    // Leer el archivo PDF
+    const pdfData = fs.readFileSync(pdfPath);
+    
+    // Establecer el tipo de contenido como PDF
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=preventa-${preventaId}.pdf`);
+    
+    // Enviar el PDF como respuesta
+    res.status(201).send(pdfData);
+    
+    console.log("Preventa agregada:", { id: preventaId, items: preventas[preventaId] });
+  } catch (error) {
+    console.error("Error al procesar la preventa:", error);
+    return res.status(500).json({
+      success: false,
+      details: "Problema al hacer la preventa"
+    });
+  }
 };
 
 // Editar una preventa
