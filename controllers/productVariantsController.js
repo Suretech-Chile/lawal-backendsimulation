@@ -424,7 +424,7 @@ exports.getGroupedPackages = (req, res) => {
     const result = {};
 
     productData.productVariants.forEach(variant => {
-      const compoundName = generateCompoundName(variant);
+      const compoundName = productData.generateCompoundName(variant);
 
       if (!result[compoundName]) {
         result[compoundName] = {
