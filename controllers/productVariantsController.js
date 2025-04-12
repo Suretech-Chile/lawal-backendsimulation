@@ -444,6 +444,8 @@ exports.getGroupedPackages = (req, res) => {
       result[compoundName].paquetes[variant.codigo] = {
         id: variant.id,
         precio: variant.precio,
+        priceIn: variant.priceIn,
+        margen: variant.margen,
         stock: variant.stock,
         local: variant.local ?? "Sin local",
         sector: variant.sector ?? "Sin sector",
