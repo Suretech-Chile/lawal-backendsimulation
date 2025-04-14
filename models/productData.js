@@ -10,18 +10,18 @@ const baseProducts = {
 
 // Simulamos una base de datos de variantes de productos
 const productVariants = [
-  { id: 1, productId: 1, nombre: "Martillo Profesional", state: 1, calidad: 1, medida: "0", paquete: 1, codigo: "MAR-01-01-001", margen: 0.25, priceIn: 80, sector: "Pasillo A", local: "Sucursal", stock: 15, precio: 100, categoria: "Ferretería" },
-  { id: 2, productId: 1, nombre: "Martillo Profesional", state: 2, calidad: 2, medida: "0", paquete: 2, codigo: "MAR-02-02-002", margen: 0.30, priceIn: 100, sector: "Pasillo A", local: "Sucursal", stock: 8, precio: 130, categoria: "Ferretería" },
+  { id: 1, productId: 1, nombre: "Martillo Profesional", state: 1, calidad: null, medida: "0", paquete: 1, codigo: "MAR-01-01-001", margen: 0.25, priceIn: 80, sector: "Pasillo A", local: "Sucursal", stock: 15, precio: 100, categoria: "Ferretería" },
+  { id: 2, productId: 1, nombre: "Martillo Profesional", state: 2, calidad: null, medida: "0", paquete: 2, codigo: "MAR-02-02-002", margen: 0.30, priceIn: 100, sector: "Pasillo A", local: "Sucursal", stock: 8, precio: 130, categoria: "Ferretería" },
   { id: 3, productId: 2, nombre: "Madera de Pino", state: 1, calidad: 1, medida: "1M", paquete: 1, codigo: "MAD-01-01-001", margen: 0.30, priceIn: 1538.46, sector: "Almacén Central", local: "Sucursal", stock: 20, precio: 2000, categoria: "Construcción" },
   { id: 4, productId: 2, nombre: "Madera de Pino", state: 1, calidad: 1, medida: "2M", paquete: 2, codigo: "MAD-01-01-002", margen: 0.30, priceIn: 3076.92, sector: "Almacén Central", local: "Sucursal", stock: 12, precio: 4000, categoria: "Construcción" },
   { id: 5, productId: 2, nombre: "Madera de Pino", state: 0, calidad: 2, medida: "1M", paquete: 3, codigo: "MAD-02-00-003", margen: 0.35, priceIn: 1700, sector: "Almacén B", local: "Sucursal", stock: 0, precio: 2295, categoria: "Construcción" },
-  { id: 6, productId: 3, nombre: "Tornillos Galvanizados", state: 1, calidad: 1, medida: "0", paquete: 1, codigo: "TOR-01-01-001", margen: 0.20, priceIn: 250, sector: "Pasillo B", local: "Sucursal", stock: 50, precio: 300, categoria: "Ferretería" },
-  { id: 7, productId: 3, nombre: "Tornillos Galvanizados", state: 2, calidad: 2, medida: "0", paquete: 2, codigo: "TOR-02-02-002", margen: 0.25, priceIn: 280, sector: "Depósito 2", local: "Planta", stock: 32, precio: 350, categoria: "Ferretería" },
-  { id: 8, productId: 4, nombre: "Cemento Portland", state: 1, calidad: 1, medida: "0", paquete: 1, codigo: "CEM-01-01-001", margen: 0.15, priceIn: 70, sector: "Zona de Cemento", local: "Sucursal", stock: 100, precio: 80.5, categoria: "Construcción" },
-  { id: 9, productId: 4, nombre: "Cemento Portland", state: 1, calidad: 2, medida: "0", paquete: 2, codigo: "CEM-02-01-002", margen: 0.20, priceIn: 90, sector: "Zona de Cemento", local: "Planta", stock: 75, precio: 108, categoria: "Construcción" },
-  { id: 10, productId: 4, nombre: "Cemento Portland", state: 0, calidad: 3, medida: "0", paquete: 3, codigo: "CEM-03-00-003", margen: 0.25, priceIn: 100, sector: "Zona de Cemento", local: "Sucursal", stock: 0, precio: 125, categoria: "Construcción" },
-  { id: 11, productId: 3, nombre: "Tornillos Galvanizados", state: 1, calidad: 3, medida: "0", paquete: 3, codigo: "TOR-03-01-003", margen: 0.30, priceIn: 300, sector: "Pasillo B", local: "Sucursal", stock: 45, precio: 390, categoria: "Ferretería" },
-  { id: 12, productId: 1, nombre: "Martillo Profesional", state: 0, calidad: 3, medida: "0", paquete: 3, codigo: "MAR-03-00-003", margen: 0.35, priceIn: 120, sector: "Depósito 1", local: "Planta", stock: 5, precio: 162, categoria: "Ferretería" }
+  { id: 6, productId: 3, nombre: "Tornillos Galvanizados", state: 1, calidad: null, medida: "0", paquete: 1, codigo: "TOR-01-01-001", margen: 0.20, priceIn: 250, sector: "Pasillo B", local: "Sucursal", stock: 50, precio: 300, categoria: "Ferretería" },
+  { id: 7, productId: 3, nombre: "Tornillos Galvanizados", state: 2, calidad: null, medida: "0", paquete: 2, codigo: "TOR-02-02-002", margen: 0.25, priceIn: 280, sector: "Depósito 2", local: "Planta", stock: 32, precio: 350, categoria: "Ferretería" },
+  { id: 8, productId: 4, nombre: "Cemento Portland", state: 1, calidad: null, medida: "0", paquete: 1, codigo: "CEM-01-01-001", margen: 0.15, priceIn: 70, sector: "Zona de Cemento", local: "Sucursal", stock: 100, precio: 80.5, categoria: "Construcción" },
+  { id: 9, productId: 4, nombre: "Cemento Portland", state: 1, calidad: null, medida: "0", paquete: 2, codigo: "CEM-02-01-002", margen: 0.20, priceIn: 90, sector: "Zona de Cemento", local: "Planta", stock: 75, precio: 108, categoria: "Construcción" },
+  { id: 10, productId: 4, nombre: "Cemento Portland", state: 0, calidad: null, medida: "0", paquete: 3, codigo: "CEM-03-00-003", margen: 0.25, priceIn: 100, sector: "Zona de Cemento", local: "Sucursal", stock: 0, precio: 125, categoria: "Construcción" },
+  { id: 11, productId: 3, nombre: "Tornillos Galvanizados", state: 1, calidad: 1, medida: "0", paquete: 3, codigo: "TOR-03-01-003", margen: 0.30, priceIn: 300, sector: "Pasillo B", local: "Sucursal", stock: 45, precio: 390, categoria: "Ferretería" },
+  { id: 12, productId: 1, nombre: "Martillo Profesional", state: 0, calidad: 2, medida: "0", paquete: 3, codigo: "MAR-03-00-003", margen: 0.35, priceIn: 120, sector: "Depósito 1", local: "Planta", stock: 5, precio: 162, categoria: "Ferretería" }
 ];
 
 
@@ -53,7 +53,7 @@ const validateCode = (codigo, nombre, calidad, state, paquete) => {
 const stateNames = {
   0: "Bruto",
   1: "Cepillado",
-  2: "Otra Transformación"
+  2: "Impregnado"
 };
 
 // Función para crear un nombre compuesto que agrupe Nombre + Estado + Medidas
@@ -63,9 +63,13 @@ const generateCompoundName = (variant) => {
   
   // Si la medida es "0", no se incluye en el nombre
   const medidaPart = variant.medida === "0" ? "" : ` ${variant.medida}`;
+
+  // Si calidad es null o undefined, es el mismo caso que si valiera 1, es decir no se muestra en el nombre. 
+  // En otro caso (o sea, cuando calidad es 2) se añade al nombre que es de segunda
+  const calidadPart = (variant.calidad ?? 1) === 1 ? "" : " (Segunda)";
   
   // Combinar las partes para formar el nombre compuesto
-  return `${variant.nombre}${stateName}${medidaPart}`;
+  return `${variant.nombre}${stateName}${medidaPart}${calidadPart}`;
 };
 
 module.exports = {

@@ -429,7 +429,6 @@ exports.getGroupedPackages = (req, res) => {
       if (!result[compoundName]) {
         result[compoundName] = {
           stockTotal: 0,
-          calidad: variant.calidad ?? "Sin especificar",
           categoria: variant.nombre,
           estado: variant.state ?? "Desconocido",
           medida: variant.medida ?? "0",
