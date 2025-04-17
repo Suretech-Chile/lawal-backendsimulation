@@ -428,10 +428,12 @@ exports.getGroupedPackages = (req, res) => {
 
       if (!result[compoundName]) {
         result[compoundName] = {
+          nombre: variant.nombre,
           stockTotal: 0,
-          categoria: variant.nombre,
-          estado: variant.state ?? "Desconocido",
+          categoria: variant.categoria,
+          estado: productData.stateNames[variant.state] ?? "Desconocido",
           medida: variant.medida ?? "0",
+          precio: variant.precio,
           paquetes: {}
         };
       }
@@ -442,13 +444,11 @@ exports.getGroupedPackages = (req, res) => {
       // Agregar paquete por código
       result[compoundName].paquetes[variant.codigo] = {
         id: variant.id,
-        precio: variant.precio,
         priceIn: variant.priceIn,
         margen: variant.margen,
         stock: variant.stock,
         local: variant.local ?? "Sin local",
-        sector: variant.sector ?? "Sin sector",
-        paquete: variant.paquete ?? 1
+        sector: variant.sector ?? "Sin sector"
       };
     });
 
